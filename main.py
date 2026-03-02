@@ -7,31 +7,26 @@ import ssl
 
 from config import load_config
 
+import rss_fetch
+import rss_display
+
+commands = {
+        "fetch":    lambda argv: rss_fetch.main(argv),
+        "display":  lambda argv: rss_display.main(argv),
+        }
 
 def main():
-    print(ssl.get_default_verify_paths())
-    # TODO: implement default config file location
-    assert len(sys.argv) == 2
+    if len(sys.argv) < 2:
+        print(f"Incorrect argument list provided", file=sys.stderr)
+        print(f"Usage: {sys.argv[0]} command [args]")
+        print("Commands:")
+        for command in commands.keys():
+            print(f"\t- {command}")
+        sys.exit(1)
 
-    config = load_config(sys.argv[1])
-    for feed in config["feeds"]:
-
-        # TODO: check configuration correctness
-        assert("url" in feed.keys())
-
-        response = requests.get(feed["url"], verify=certifi.where())
-        
-        # TODO: handle failed requests or requests with bad mime types
-        print(f"content type {response.headers['content-type']}")
-        assert(response.headers["content-type"].split(';')[0]
-               in ["application/xml", "application/rss+xml"])
-
-        # TODO: handle non UTF-8 character sets
-        assert(response.encoding == "utf-8")
-
-        raw_content = response.text
-
-        print(raw_content)
+    cmd = sys.argv[1]
+    if cmd in commands.keys():
+        commands[cmd](sys.argv[2:])
 
 if __name__ == "__main__":
     main()

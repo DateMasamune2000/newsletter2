@@ -1,6 +1,9 @@
 import rich
 from lxml import etree
 
+def main(argv):
+    demo()
+
 def demo():
     feedtree = None
 
@@ -18,4 +21,4 @@ def demo():
                             rich.print(f"   {item_child.text}")
 
 if __name__ == "__main__":
-    demo()
+    main()
