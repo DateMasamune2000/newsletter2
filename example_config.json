@@ -1,0 +1,22 @@
+{
+	"feeds": [
+		{
+			"id": "feed1",
+			"name": "Name of Feed 1",
+			"url": "https://example.com/feed1"
+		},
+		{
+			"id": "feed2",
+			"name": "Name of Feed 2",
+			"url": "https://example.com/feed2"
+		}
+	],
+
+	"cache": {
+		"dir": "DEFAULT",
+		"files": {
+			"feed1": "feed1.xml",
+			"feed2": "feed2.xml"
+		}
+	}
+}
